@@ -1,0 +1,102 @@
+{% extends "predictor/base.html" %}
+{% block title %}Stock Predictor{% endblock %}
+
+{% block extra_head %}
+<style>
+  .hero { margin-bottom: 48px; }
+  .hero h1 {
+    font-family: 'DM Mono', monospace; font-size: 2rem; font-weight: 300;
+    color: var(--bright); letter-spacing: -.01em; margin-bottom: 10px;
+  }
+  .hero p { color: var(--dim); font-size: .9rem; max-width: 480px; }
+
+  .form-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 16px;
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px; margin-bottom: 28px;
+  }
+  .chips-label {
+    font-family: var(--mono); font-size: .7rem; color: var(--dim);
+    letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+
+  @media(max-width: 600px) {
+    .form-grid, .form-row { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 1.4rem; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>predict.<br>the market.</h1>
+  <p>Enter a ticker symbol and choose a model to generate a time-series forecast.</p>
+</div>
+
+{% if error %}
+<div class="error-box">⚠ {{ error }}</div>
+{% endif %}
+
+<div class="chips-label">Popular tickers</div>
+<div class="chips">
+  {% for t in popular %}
+  <span class="chip" onclick="setTicker('{{ t }}')">{{ t }}</span>
+  {% endfor %}
+</div>
+
+<form method="POST" action="/predict/">
+  {% csrf_token %}
+
+  <div class="form-grid">
+    <div>
+      <label>Ticker Symbol</label>
+      <input type="text" name="ticker" id="ticker"
+             placeholder="e.g. AAPL" required autocomplete="off">
+    </div>
+    <div>
+      <label>Model</label>
+      <select name="model">
+        <option value="all">All Models</option>
+        <option value="lr">Linear Regression</option>
+        <option value="arima">ARIMA</option>
+        <option value="ma">Moving Average</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div>
+      <label>Historical Period</label>
+      <select name="period">
+        <option value="6mo">6 Months</option>
+        <option value="1y" selected>1 Year</option>
+        <option value="2y">2 Years</option>
+        <option value="5y">5 Years</option>
+      </select>
+    </div>
+    <div>
+      <label>Forecast Days</label>
+      <select name="days">
+        <option value="7">7 Days</option>
+        <option value="14">14 Days</option>
+        <option value="30" selected>30 Days</option>
+        <option value="60">60 Days</option>
+        <option value="90">90 Days</option>
+      </select>
+    </div>
+    <div style="display:flex; align-items:flex-end;">
+      <button type="submit" style="width:100%">Run Forecast →</button>
+    </div>
+  </div>
+</form>
+
+<script>
+  function setTicker(t) {
+    document.getElementById('ticker').value = t;
+  }
+</script>
+{% endblock %}

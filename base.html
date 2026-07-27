@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Stock Predictor{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:      #0d0d0d;
+    --surface: #141414;
+    --border:  #1f1f1f;
+    --muted:   #3a3a3a;
+    --dim:     #666;
+    --text:    #d4d4d4;
+    --bright:  #f0f0f0;
+    --green:   #4ade80;
+    --red:     #f87171;
+    --blue:    #60a5fa;
+    --mono:    'DM Mono', monospace;
+    --sans:    'DM Sans', sans-serif;
+  }
+
+  html { font-size: 15px; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--sans); font-weight: 300;
+    line-height: 1.6; min-height: 100vh;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  header { border-bottom: 1px solid var(--border); padding: 20px 0; }
+  header .inner { display: flex; align-items: center; justify-content: space-between; }
+
+  .logo {
+    font-family: var(--mono); font-size: .78rem;
+    letter-spacing: .12em; color: var(--dim); text-transform: uppercase;
+  }
+  .logo span { color: var(--bright); }
+
+  main { padding: 48px 0 80px; }
+
+  input, select {
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--bright); font-family: var(--mono); font-size: .85rem;
+    padding: 10px 14px; border-radius: 4px; outline: none; width: 100%;
+    transition: border-color .2s;
+  }
+  input:focus, select:focus { border-color: var(--muted); }
+  input::placeholder { color: var(--dim); }
+
+  label {
+    display: block; font-family: var(--mono); font-size: .72rem;
+    letter-spacing: .08em; color: var(--dim); margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  button {
+    background: var(--bright); color: var(--bg); border: none;
+    font-family: var(--mono); font-size: .82rem; font-weight: 500;
+    letter-spacing: .06em; padding: 11px 28px; border-radius: 4px;
+    cursor: pointer; transition: opacity .2s;
+  }
+  button:hover { opacity: .85; }
+
+  .chip {
+    display: inline-block; font-family: var(--mono); font-size: .72rem;
+    border: 1px solid var(--border); color: var(--dim); padding: 4px 10px;
+    border-radius: 3px; cursor: pointer; transition: all .15s; letter-spacing: .04em;
+  }
+  .chip:hover { border-color: var(--muted); color: var(--text); }
+
+  .error-box {
+    border: 1px solid #3a1c1c; background: #1a0e0e; color: var(--red);
+    font-family: var(--mono); font-size: .82rem; padding: 14px 18px;
+    border-radius: 4px; margin-bottom: 28px;
+  }
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+<header>
+  <div class="wrap inner">
+    <div class="logo"><span>stock</span>·predict</div>
+    <div class="logo" style="font-size:.7rem">time series models</div>
+  </div>
+</header>
+<main>
+  <div class="wrap">
+    {% block content %}{% endblock %}
+  </div>
+</main>
+</body>
+</html>
