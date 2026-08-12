@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake News Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .container {
+            background-color: white;
+            width: 50%;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        textarea {
+            width: 90%;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 14px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .real {
+            color: green;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .fake {
+            color: red;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .confidence {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>📰 Fake News Detection System</h2>
+
+        <form action="/predict" method="post">
+            <textarea name="news" rows="5" placeholder="Enter news text here"></textarea>
+            <br><br>
+            <input type="submit" value="Predict">
+        </form>
+
+        {% if prediction %}
+            {% if prediction == "REAL" %}
+                <p class="real">Prediction: {{ prediction }}</p>
+            {% elif prediction == "FAKE" %}
+                <p class="fake">Prediction: {{ prediction }}</p>
+            {% else %}
+                <p>{{ prediction }}</p>
+            {% endif %}
+        {% endif %}
+
+        {% if confidence %}
+            <p class="confidence">Confidence: {{ confidence }}%</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>
